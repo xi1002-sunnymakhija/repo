@@ -1,0 +1,105 @@
+package com.im.company;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CSVReader {
+
+	public static void main(String[] args) {
+
+		CSVReader obj = new CSVReader();
+		obj.run();
+
+	}
+
+	public void run() {
+
+		String csvFile = "D:\\projects\\csvws\\csvreader\\src\\com\\im\\company\\resources\\Share.csv";
+		BufferedReader br = null;
+		String line = "";
+		String cvsSplitBy = ",";
+
+		try {
+
+			br = new BufferedReader(new FileReader(csvFile));
+			List<Company> companyList = new ArrayList<Company>();
+			int i = 0;
+			String[] companyNames = null;
+			while ((line = br.readLine()) != null) {
+				Integer maxPrice = new Integer(0);
+				Company company = new Company();
+				/**
+				 * Fetching company names only
+				 */
+				if (i == 0) {
+					// use comma as separator
+					companyNames = line.split(cvsSplitBy);
+				}
+
+				if (i >= 1) {
+					// use comma as separator
+					String[] record = line.split(cvsSplitBy);
+					/**
+					 * Here we are fething maximum price of share of year& month
+					 */
+					for (int j = 2; j < record.length; j++) {
+						if (record[j] != null) {
+							Integer sharePrice = Integer.parseInt(record[j]);
+							if (sharePrice >= maxPrice) {
+								maxPrice = sharePrice;
+							}
+
+						}
+					}
+
+					/**
+					 * If more than one comapny have same max price
+					 * 
+					 */
+					for (int j = 2; j < record.length; j++) {
+						Integer sharePrice = Integer.parseInt(record[j]);
+						if (sharePrice == maxPrice) {
+							company = new Company();
+							company.setCompanyName(companyNames[j]);
+							company.setMonth(record[1]);
+							company.setYear(record[0]);
+							company.setPrice(record[j]);
+							companyList.add(company);
+						}
+
+					}
+				}
+				i++;
+
+			}
+			System.out.println("----List of comapny which have highest share price in year & month---");
+			System.out.println("Year	" + "Month	" + "Company	" + "Price");
+
+			for (Company company : companyList) {
+				System.out.println(company.getYear() + "	" + company.getMonth()
+						+ "	" + company.getCompanyName() + "	"
+						+ company.getPrice());
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		System.out.println("Done");
+	}
+
+}
