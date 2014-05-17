@@ -1,0 +1,14 @@
+----List of comapny which have highest share price in year & month---
+Year	Month	Company	Price
+1990	Jan	Comp A	30
+1990	Jan	Comp C	30
+1990	Feb	Comp C	35
+1990	Mar	Comp A	50
+1990	April	Comp B	89
+1990	May	Comp A	78
+1991	Jan	Comp A	45
+1991	Feb	Comp B	45
+1991	Feb	Comp C	45
+1991	march	Comp A	67
+1991	march	Comp C	67
+Done
